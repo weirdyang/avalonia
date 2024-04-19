@@ -7,7 +7,7 @@ using ToDoList.DataModel;
 
 namespace ToDoList.ViewModels
 {
-    public partial class AddItemViewModel : ObservableRecipient
+    public partial class AddItemViewModel : ViewModelBase
     {
 
         public string Description 

@@ -8,12 +8,10 @@ using ToDoList.Services;
 
 namespace ToDoList.ViewModels
 {
-    public class ToDoListViewModel : ObservableRecipient, IRecipient<NewToDoItemMessage>
+    public class ToDoListViewModel : ViewModelBase, IRecipient<NewToDoItemMessage>
     {
-        private IToDoListService _toDoListService;
         public ToDoListViewModel(IToDoListService toDoListService)
         {
-            _toDoListService = toDoListService;
             ListItems = new ObservableCollection<ToDoItem>(toDoListService.GetItems());
             WeakReferenceMessenger.Default.Register(this);
         }

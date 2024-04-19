@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using ToDoList.Services;
@@ -13,10 +14,6 @@ namespace ToDoList
 {
     public partial class App : Application
     {
-        public App()
-        {
-            this.Services = ConfigureServices();    
-        }
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -24,28 +21,27 @@ namespace ToDoList
         /// <summary>
         /// Gets the current <see cref="App"/> instance in use
         /// </summary>
-        public new static App Current => (App)Application.Current;
+        public new static App? Current => Application.Current as App;
 
-        /// <summary>
-        /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
-        /// </summary>
-        public IServiceProvider Services { get; }
 
         /// <summary>
         /// Configures the services for the application.
         /// </summary>
-        private static IServiceProvider ConfigureServices()
+        private void ConfigureServices()
         {
-            var services = new ServiceCollection();
+            Ioc.Default.ConfigureServices(
+                new ServiceCollection()
+                .AddSingleton<IToDoListService, ToDoListService>()
+                .AddTransient<ToDoListViewModel>()
+                .AddTransient<MainWindowViewModel>()
+                .BuildServiceProvider());
 
-            services.AddSingleton<IToDoListService, ToDoListService>();
-            services.AddTransient<ToDoListViewModel>();
-            services.AddTransient<MainWindowViewModel>();
-            return services.BuildServiceProvider();
         }
         public override void OnFrameworkInitializationCompleted()
         {
-            var mainViewModel = Services.GetRequiredService<MainWindowViewModel>();
+            ConfigureServices();
+
+            var mainViewModel = Ioc.Default.GetRequiredService<MainWindowViewModel>();
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Line below is needed to remove Avalonia data validation.

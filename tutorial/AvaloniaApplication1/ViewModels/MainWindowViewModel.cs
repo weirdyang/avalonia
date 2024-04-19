@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,8 +14,8 @@ namespace ToDoList.ViewModels
         public ToDoListViewModel ToDoList { get; }
         public MainWindowViewModel()
         {
-            ToDoList = App.Current.Services.GetRequiredService<ToDoListViewModel>();
-            _contentViewModel = ToDoList();
+            ToDoList = Ioc.Default.GetRequiredService<ToDoListViewModel>();
+            _contentViewModel = ToDoList;
             WeakReferenceMessenger.Default.Register(this);
         }
         private ObservableRecipient _contentViewModel;
