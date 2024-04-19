@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PhotoBrowser.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="PhotoBrowser.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="PhotoBrowser">
+
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
+  <Grid RowDefinitions="*,Auto" Margin="10">
+    <TransitioningContentControl Content="{Binding CurrentName}" />
+
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5"
+      HorizontalAlignment="Right">
+      <Button Command="{Binding NavigatePreviousCommand}" Content="Back" />
+      <Button Command="{Binding NavigateNextCommand}" Content="Next" />
+    </StackPanel>
+  </Grid>
+</Window>

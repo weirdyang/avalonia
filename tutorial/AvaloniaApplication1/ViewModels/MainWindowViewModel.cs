@@ -18,8 +18,8 @@ namespace ToDoList.ViewModels
             _contentViewModel = ToDoList;
             WeakReferenceMessenger.Default.Register(this);
         }
-        private ObservableRecipient _contentViewModel;
-        public ObservableRecipient ContentViewModel
+        private ViewModelBase _contentViewModel;
+        public ViewModelBase ContentViewModel
         {
             get => _contentViewModel;
             private set => this.SetProperty(ref _contentViewModel, value);
